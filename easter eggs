@@ -1,0 +1,79 @@
+
+import discord
+import asyncio
+import time
+import random
+from discord.ext import commands
+from discord.ext.commands import Bot
+
+
+default_intents = discord.Intents.default()
+
+default_intents.members = True
+
+TOKEN = "OTE5MjAzMDU2ODk2MzIzNTg0.YbSYjg.OKhSlRIjeQAP692Vg4gQ_fkew7M"
+client = discord.Client(intents=default_intents)
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+
+
+    if message.content.startswith("<@919203056896323584>"):
+        await message.channel.send("Oui?")
+    if message.content.startswith("ping"):
+        await message.channel.send("Pong")
+    if message.content.startswith("ching"):
+        await message.channel.send("chong")
+    if message.content.startswith("DANCE DANCE CHAKU CHAKU"):
+        await message.channel.send("https://youtu.be/"
+                                   "Krkp_TcVUdE")
+    if message.content.startswith("BOOSTED"):
+        await message.channel.send("https://media.discordapp.net/attachments/"
+                                   "919340675521216575/919340692730433536/unknown.png?width=886&height=498")
+    if message.content.startswith("dnc"):
+        await message.channel.send("https://docs.google.com/document/d/"
+                                   "1a9goov9t0cD4UAk4zFp6D34wDIsP1yQ4NHnKT4kA6Lw/edit")
+
+    if message.content.startswith("silver pls"):
+        await message.channel.send("https://cdn.discordapp.com/attachments/919340675521216575/"
+                                   "919342500240584714/"
+                                           "homeless-man-on-the-street-picture-id167313658.png")
+    if message.content.startswith("ma mere appelle"):
+        await message.channel.send("https://tenor.com/view/"
+                                   "homer-simpson-homer-disappears-bush-hiding-gif-3377649")
+    if message.content.startswith("crack"):
+        await message.channel.send("https://medal.tv/games/roblox/clips/61389230/"
+                                   "d1337ODujVIV?invite=cr-MSx3NjksMjI2MjM4NDUs")
+    if message.content.startswith("gorille"):
+        await message.channel.send("https://cdn.discordapp.com/attachments/"
+                                   "769681557861433415/833709291977310239/video0_3.mov")
+    if message.content.startswith("anime"):
+        await message.channel.send("https://cdn.discordapp.com/attachments/"
+                                           "769681557861433415/825518130041454642/video0_29.mp4")
+    if message.content.startswith("NARUTO"):
+        await message.channel.send("SASUK"
+                                   "EEEEEEEEEE")
+    if message.content.startswith("Kerbot"):
+        await message.channel.send("Oui c'est moi ducoup tu veux quoi?")
+    if message.content.startswith("Moms"):
+        await message.channel.send("Mon createur.")
+    if message.content.startswith("why u so scared"):
+        await message.channel.send("https://medal.tv/games/roblox/clips/"
+                                  "6fj4R6rSVESnF/d1337Kosnv4L?invite=cr-MSxFRXIsMjU4ODA3Nzks")
+    if message.content.startswith("Ok google"):
+        await message.channel.send("J'ecoute")
+    if message.content.startswith("Kermit"):
+        await message.channel.send("C'est ma source d'inspiration.")
+    if message.content.startswith("Username?"):
+         await message.channel.send(message.author)
+    if message.content.startswith("Mourtada"):
+        await message.channel.send("Mourtada est incroyablement bete.")
+
+
+@client.event
+async def on_ready():
+    print("scripts easter egg loaded")
+    print("Easter egg bon carré")
+client.run(TOKEN)
