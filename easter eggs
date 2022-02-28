@@ -11,7 +11,7 @@ default_intents = discord.Intents.default()
 
 default_intents.members = True
 
-TOKEN = "OTE5MjAzMDU2ODk2MzIzNTg0.YbSYjg.OKhSlRIjeQAP692Vg4gQ_fkew7M"
+TOKEN = "XXXXXXXXXXXXXXXXXXXXXXXXXX"
 client = discord.Client(intents=default_intents)
 
 @client.event
