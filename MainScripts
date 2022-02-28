@@ -1,0 +1,148 @@
+# Import et variables/class/fonctions importantes
+import discord
+import asyncio
+import time
+import random
+from discord.ext import commands
+
+default_intents = discord.Intents.default()
+
+default_intents.members = True
+
+#place your token instead of the X
+TOKEN = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Setting the prefix
+bot = commands.Bot(command_prefix = "=")
+
+client = discord.Client(intents = default_intents)
+
+reponses = [
+    'fax',
+    'no lol',
+    'Obviously not',
+    'Maybe',
+    'Kinda',
+    'I dont know who capped like that but no',
+    'Indeed',
+    'I agree',
+    'Ofc',
+    'well not really ',
+    'ducoup non',
+]
+
+orders = []
+
+# Debut du programme
+# event on load
+@bot.event
+async def on_ready():
+    print("Je suis on.")
+    
+# Commande : Salut
+@bot.command()
+async def salut(ctx):
+    await ctx.send("Salut!")
+    
+# Commande : Askip
+@bot.command()
+async def askip(ctx):
+    await ctx.send(random.choice(reponses))
+    
+# Commande : serverInfo
+@bot.command()
+async def serverinfo(ctx):
+    server = ctx.guild
+    serverName = server.name
+    numberOfTextChannels = len(server.text_channels)
+    numberOfVoiceChannels = len(server.voice_channels)
+    nbrDeMembres = server.member_count
+    await ctx.send(f"Bienvenu dans le serveur **{server.name}** avec **{numberOfTextChannels}** channels textuel,"
+                   f" **{numberOfVoiceChannels}** channels vocaux et **{nbrDeMembres}** membres.")
+
+# Commande : Getinfo
+@bot.command()
+async def getinfo(ctx, info):
+    server = ctx.guild
+    if info == "memberCount":
+        await ctx.send(server.member_count)
+    elif info == "textChannelCount":
+        await ctx.send(len(server.text_channels))
+    elif info == "voiceChannelCount":
+        await ctx.send(len(server.voice_channels))
+    else:
+        await ctx.send("En anglais ducoup?")
+
+# Commande : Purge
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def purge(ctx, nombre : int):
+    messages = await ctx.channel.history(limit = nombre + 1).flatten()
+    for message in messages:
+        await message.delete()
+
+# Commande : Kick
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def kick(ctx, user: discord.User, raison=None):
+    await ctx.guild.kick(user)
+    await ctx.send(f"{user} a ete kick mdr.")
+
+# Commande : Ban
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def ban(ctx, user : discord.User, raison = None):
+    await ctx.guild.ban(user)
+    await ctx.send(f"Bon {user} a ete bannis du serveur mdr.")
+
+# Commande : Unban
+@bot.command()
+@commands.has_permissions(administrator=True)
+async def unban(ctx, user, reason = None):
+    userName, userId = user.split("#")
+    userBanned = await ctx.guild.bans()
+    for i in userBanned:
+        if i.user.name == userName and i.user.discriminator == userId:
+            await ctx.guild.unban(i.user, reason = None)
+            await ctx.send("L'utilisateur a ete unban ez")
+        return
+    await ctx.send("Impossible")
+
+
+# Commande : Say
+@bot.command()
+async def say(ctx,*texte):
+    await ctx.send(" ".join(texte))
+
+# Commande(Facultatif) : Blacksmith 
+@bot.command()
+async def blacksmith(ctx):
+    await ctx.send("What do you want to order?")
+    def check(message):
+       return message.author == ctx.message.author and ctx.message.channel == message.channel
+    order = await bot.wait_for('message', timeout = 10, check = check)
+    await ctx.send(f"The order of ** {order.content} ** is registered.")
+    message = await ctx.send(f"Are you sure that you want to take the following order? {order.content} ")
+    await message.add_reaction('✅')
+    await message.add_reaction('❌')
+
+    def checkEmoji(reaction, user):
+        return ctx.message.author == user and message.id == reaction.message.id\
+               and (str(reaction.emoji) == '✅' or str(reaction.emoji) == '❌')
+    try:
+        reaction, user = await bot.wait_for('reaction_add', timeout=10, check=checkEmoji)
+        if reaction.emoji == '✅':
+            await ctx.send("Your order is successfully registered.")
+
+        elif reaction.emoji == '❌':
+            await ctx.send("The order got deleted.")
+    except:
+        await ctx.send("The order got deleted, no reactions got sent during the given amount of time")
+        
+# Commande : Help
+# You can basically use the command : "=help" that will show you the use of theses
+
+# Fin du programme
+
+print("Ligne carre") 
+bot.run(TOKEN)
